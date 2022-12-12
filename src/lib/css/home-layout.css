@@ -1,0 +1,17 @@
+.layout-section {
+  width: 100%;
+  height: 100vh;
+  max-height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--clr-sec);
+  color: var(--clr-off-white);
+  padding: 2em 0;
+}
+
+.auth-container {
+  padding-top: 4em;
+}
+
