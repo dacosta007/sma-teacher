@@ -5,7 +5,7 @@
   export let allReports
   export let currentStat
 
-  console.log(currentStat)
+  // console.log(currentStat)
 
   let totalRept = (allReports.length)
   let completed = allReports.filter(ele => ele.exam.report != undefined)

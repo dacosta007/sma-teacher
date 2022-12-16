@@ -26,7 +26,7 @@
   <section class="report-container">
     <!-- display all reports -->
     <div class="report-sec">
-      <ListReport allStudts={data.results} classes={data.classes} on:addRptStat={getCurrentStat} />
+      <ListReport allStudts={data.results} classes={data.classes} teachSubjs={data.teachSubjs} on:addRptStat={getCurrentStat} />
     </div>
 
     <!-- show stats -->

@@ -5,7 +5,7 @@ import { invalid } from "@sveltejs/kit"
 export async function PUT({ request }) {
   let resultData = await request.json()
 
-  console.log(resultData)
+  // console.log(resultData)
 
   try {
     // database query options
@@ -21,11 +21,12 @@ export async function PUT({ request }) {
       uptdOpts.$set[`cummulative.midTerm.${term}`] = resultData.cummulative.midTerm[term]
     }
     if (reportType === 'exam') {
+      uptdOpts.$set['meta.updatedAt'] = resultData.meta.updatedAt
       uptdOpts.$set[`${reportType}.report.${term}`] = resultData.exam.report[term]
       uptdOpts.$set[`${reportType}.comments.${term}`] = resultData.exam.comments[term]
       uptdOpts.$set[`cummulative.exam.${term}`] = resultData.cummulative.exam[term]
     }
-    console.log(uptdOpts)
+    // console.log(uptdOpts)
 
     // // update report
     let updtRept = await results.updateOne(query, uptdOpts)

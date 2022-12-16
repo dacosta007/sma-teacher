@@ -1,5 +1,5 @@
 import { MONGO_URI } from "$env/static/private"
-// import { MONGO_URI_DEV } from "$env/static/private"
+import { MONGO_URI_DEV } from "$env/static/private"
 import { MongoClient } from "mongodb";
 
 

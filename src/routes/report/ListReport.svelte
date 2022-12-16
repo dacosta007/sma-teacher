@@ -10,6 +10,7 @@
 
   export let allStudts
   export let classes
+  export let teachSubjs
 
   let dispatch = createEventDispatcher()
 
@@ -38,7 +39,9 @@
   // let seeAllComputed = allComputed.length > 0 ? allComputed : [] 
   // console.log(allComputed)
   // console.log(seeAllComputed)
-  
+  // filter out all teachers subject teaches
+  let allTeachSubjs = [...new Set(teachSubjs.map(ele => ele.subj))]
+  // console.log(`All Teacher's Subjects: ${allTeachSubjs}`)
 
   // holds principal and teacher's comments
   let tComment = '', pComment = ''
@@ -73,6 +76,13 @@
     frmData.grade = grade
     frmData.gradeClr = gradeClr
 
+    // when subject isn't part of what the subject teacher teaches
+    if (allTeachSubjs.includes(frmData.subj) === false) {
+      alert(`🛑 "${frmData.subj}" isn't part of your subject!`)
+      frm.reset()
+      return
+    }
+
     if (currentAddedSubj.length <= 0) {
       currentAddedSubj = [frmData]
       frm.reset()
@@ -86,7 +96,8 @@
       frm.reset()
       return
     }
-    
+
+    // currently added teacher's subject and other teachers subjects
     currentAddedSubj = [frmData, ...currentAddedSubj]
     // clear form fields
     frm.reset()
@@ -115,7 +126,7 @@
     stdDetail.exam['comments'][`${academicYear.currentTerm}`]['teacher'] = tComment
     stdDetail.exam['comments'][`${academicYear.currentTerm}`]['principal'] = pComment
     stdDetail.cummulative.exam[`${academicYear.currentTerm}`] = cummulative
-    stdDetail.meta.updateAt = new Date().toLocaleDateString()
+    stdDetail.meta.updatedAt = new Date().toLocaleDateString()
     // TODO: term should be set automatically(by admin in his portal)/manually(by class teachers)
     stdDetail['term'] = academicYear.currentTerm
     stdDetail['reportType'] = 'exam'
@@ -139,20 +150,17 @@
         let indx = allComputed.findIndex(ele => ele.meta.studtId === stdDetail.meta.studtId)
         if (indx === -1) {
           allComputed = [stdDetail, ...allComputed]
-          console.log(allComputed)
+          // console.log(allComputed)
           // close compute modal & clear currentAddedSubj
           currentAddedSubj = []
           showModal = false
 
-          
-
           // console.log('modal window closed!')
           alert('Report is successfully updated 😀')
-
         }
         if (indx > -1) {
           allComputed[indx] = stdDetail
-          console.log(allComputed)
+          // console.log(allComputed)
           // close compute modal & clear currentAddedSubj
           currentAddedSubj = []
           showModal = false
@@ -168,7 +176,17 @@
   }
 
   function filterList(event) {
-    if (event.target.value === '') { listStudt = studts; return }
+    if (event.target.value === '') { 
+      // let teachCls = classes[0]
+      // let tCategory = teachCls.slice(0, 3)
+      // let tLevel = teachCls.match(/\d/g)[0]
+      // let tSubLevel = teachCls.slice(teachCls.length - 1)
+
+      // show students of the first class the teacher handles
+      // listStudt = studts.filter(item => item.meta.class.category === tCategory && item.meta.class.level === tLevel && item.meta.class.subLevel === tSubLevel)
+      listStudt = studts
+      return
+    }
 
     let category = (event.target.value).slice(0, 3)
     let level = (event.target.value).match(/\d/g)[0]
@@ -185,6 +203,11 @@
   // help remove added subj
   function removeSubj(evt) {
     let subjRemove = evt.detail
+    // check if it is part of the teacher's handled subject
+    if (allTeachSubjs.includes(subjRemove) === false) {
+      alert("🛑 You aren't permitted to remove this subject!")
+      return
+    }
     currentAddedSubj = currentAddedSubj.filter(s => s.subj != subjRemove)
   }
 
@@ -211,11 +234,13 @@
       pComment = getRept.exam.comments[`${academicYear.currentTerm}`].principal ?? ''
 
       /* --- all subject and scores previously computed: --- */
-      // records from previous exam record computed
+      // records from exam record computed for the term(current term)
       let records = getRept.exam.report[`${academicYear.currentTerm}`]
       currentAddedSubj = records
-      // recorded subjects from midTerm already computed
+
+      // recorded subjects from midTerm already computed(subject teacher teaches)
       let allExamSubjs = getRept.midTerm.report[academicYear.currentTerm].map(ele => ele.subj)
+      // subjects = allExamSubjs.filter(ele => allTeachSubjs.includes(ele.subj))
       subjects = allExamSubjs
 
       // show current clicked student
@@ -224,8 +249,9 @@
       return
     }
 
-    // get previously add computed subjects
+    // get previously add computed subjects(that is teacher teaches)
     subjects = std.midTerm.report[academicYear.currentTerm].map(ele => ele.subj)
+    // subjects = subjects.filter(ele => allTeachSubjs.includes(ele.subj))
 
     // show current clicked student
     stdDetail = std

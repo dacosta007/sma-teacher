@@ -11,7 +11,10 @@ export async function load({ locals, cookies }) {
   let sessionId = cookies.get('sessionId')
   let user = JSON.parse(cookies.get('user'))
 
-  let teachClasses = user.classes
+  /* --- classes handled by teacher & subjects he/she teaches --- */
+  let teachClasses = [...new Set(user.subjects.map(ele => ele.class))]
+  let teachSubjs = user.subjects
+  console.log(teachClasses)
   let levels = teachClasses.map(ele => ele.match(/\d/)[0])
   let categories = teachClasses.map(ele => ele.slice(0, 3))
   let subLevels = teachClasses.map(ele => ele.slice(ele.length - 1))
@@ -23,6 +26,7 @@ export async function load({ locals, cookies }) {
     let reports = await results.find({}, queryOpt).toArray()
     
     /* --- filter out the students for teacher's class --- */
+    
     let rept1 = reports.filter(ele => {
       let query = 
         ele.meta.class.category === categories[0] 
@@ -70,14 +74,30 @@ export async function load({ locals, cookies }) {
   
       totRept = totRept.concat(rept4)
     }
+    if (teachClasses.length > 4) {
+      let rept5 = reports.filter(ele => {
+        let query = 
+          ele.meta.class.category === categories[4] 
+          && ele.meta.class.level === levels[4] 
+          && ele.meta.class.subLevel === subLevels[4]
+    
+        return query
+      })
   
+      totRept = totRept.concat(rept5)
+    }
+
+    // let stat = totRept.reduce((acc, ele) => {
+    //   acc[`${ele.meta.class.category}${ele.meta.class.level}${ele.meta.class.subLevel}`] = acc[`${ele.meta.class.category}${ele.meta.class.level}${ele.meta.class.subLevel}`] ? acc[`${ele.meta.class.category}${ele.meta.class.level}${ele.meta.class.subLevel}`] + 1 : 1
+    //   return acc
+    // }, {})
+    // console.log(stat)
     return {
       results: totRept,
-      classes: teachClasses
+      classes: teachClasses,
+      teachSubjs: teachSubjs
     }
   } catch (error) {
     console.log(error)
   }
-
-
 }

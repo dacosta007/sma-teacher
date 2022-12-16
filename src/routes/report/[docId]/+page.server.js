@@ -26,16 +26,16 @@ export async function load({ params, cookies }) {
     let queryOpt = { projection: { _id: 0 } }
     
     let res = await results.findOne(query, queryOpt)
-    let stdCls = `${res.meta.class.category} ${res.meta.class.level}${res.meta.class.subLevel}`
+    // let stdCls = `${res.meta.class.category} ${res.meta.class.level}${res.meta.class.subLevel}`
     // console.log(stdCls)
 
     // check if student is within teacher's classes(else prevent access to view such student's report)
-    if (teachClasses.includes(stdCls) === false) {
-      return {
-        error: true,
-        res
-      }
-    }
+    // if (teachClasses.includes(stdCls) === false) {
+    //   return {
+    //     error: true,
+    //     res
+    //   }
+    // }
 
     return { res, docId }
   } catch (err) {
