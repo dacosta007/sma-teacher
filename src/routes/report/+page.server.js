@@ -28,71 +28,7 @@ export async function load({ locals, cookies }) {
     
     /* --- filter out the students for teacher's class --- */
     
-    // let rept1 = reports.filter(ele => {
-    //   let query = 
-    //     ele.meta.class.category === categories[0] 
-    //     && ele.meta.class.level === levels[0] 
-    //     && ele.meta.class.subLevel === subLevels[0]
-  
-    //   return query
-    // })
-    // totRept = totRept.concat(rept1)
     
-    // // TODO: update logic in future development
-    // if (teachClasses.length > 1) {
-    //   let rept2 = reports.filter(ele => {
-    //     let query = 
-    //       ele.meta.class.category === categories[1] 
-    //       && ele.meta.class.level === levels[1] 
-    //       && ele.meta.class.subLevel === subLevels[1]
-    
-    //     return query
-    //   })
-  
-    //   totRept = totRept.concat(rept2)
-    // }
-    // if (teachClasses.length > 2) {
-    //   let rept3 = reports.filter(ele => {
-    //     let query = 
-    //       ele.meta.class.category === categories[2] 
-    //       && ele.meta.class.level === levels[2] 
-    //       && ele.meta.class.subLevel === subLevels[2]
-    
-    //     return query
-    //   })
-  
-    //   totRept = totRept.concat(rept3)
-    // }
-    // if (teachClasses.length > 3) {
-    //   let rept4 = reports.filter(ele => {
-    //     let query = 
-    //       ele.meta.class.category === categories[3] 
-    //       && ele.meta.class.level === levels[3] 
-    //       && ele.meta.class.subLevel === subLevels[3]
-    
-    //     return query
-    //   })
-  
-    //   totRept = totRept.concat(rept4)
-    // }
-    // if (teachClasses.length > 4) {
-    //   let rept5 = reports.filter(ele => {
-    //     let query = 
-    //       ele.meta.class.category === categories[4] 
-    //       && ele.meta.class.level === levels[4] 
-    //       && ele.meta.class.subLevel === subLevels[4]
-    
-    //     return query
-    //   })
-  
-    //   totRept = totRept.concat(rept5)
-    // }
-
-    // let stat = totRept.reduce((acc, ele) => {
-    //   acc[`${ele.meta.class.category}${ele.meta.class.level}${ele.meta.class.subLevel}`] = acc[`${ele.meta.class.category}${ele.meta.class.level}${ele.meta.class.subLevel}`] ? acc[`${ele.meta.class.category}${ele.meta.class.level}${ele.meta.class.subLevel}`] + 1 : 1
-    //   return acc
-    // }, {})
-    // console.log(stat)
     return {
       results: reports,
       classes: teachClasses,

@@ -39,8 +39,8 @@
   let allComputed =  studts.filter(ele => ele.exam?.report != undefined)
   
   // filter out all teachers subject teaches
-  let allTeachSubjs = [...new Set(teachSubjs.map(ele => ele.subj))]
-  // console.log(`All Teacher's Subjects: ${allTeachSubjs}`)
+  let allTeachSubjs = [...new Set(teachSubjs.map(ele => (ele.subj).toLowerCase()))]
+  console.log(`All Teacher's Subjects: ${allTeachSubjs}`)
 
   // holds principal and teacher's comments
   let tComment = '', pComment = ''
@@ -76,11 +76,12 @@
     frmData.gradeClr = gradeClr
 
     // when subject isn't part of what the subject teacher teaches
-    if (allTeachSubjs.includes(frmData.subj) === false) {
-      alert(`🛑 "${frmData.subj}" isn't part of your subject!`)
-      frm.reset()
-      return
-    }
+    console.log(`Selected subject: ${frmData.subj}`)
+    // if (allTeachSubjs.includes((frmData.subj).toLowerCase()) === false) {
+    //   alert(`🛑 "${frmData.subj}" isn't part of your subject!`)
+    //   // frm.reset()
+    //   return
+    // }
 
     if (currentAddedSubj.length <= 0) {
       currentAddedSubj = [frmData]
@@ -198,10 +199,10 @@
   function removeSubj(evt) {
     let subjRemove = evt.detail
     // check if it is part of the teacher's handled subject
-    if (allTeachSubjs.includes(subjRemove) === false) {
-      alert("🛑 You aren't permitted to remove this subject!")
-      return
-    }
+    // if (allTeachSubjs.includes((subjRemove).toLowerCase()) === false) {
+    //   alert("🛑 You aren't permitted to remove this subject!")
+    //   return
+    // }
     currentAddedSubj = currentAddedSubj.filter(s => s.subj != subjRemove)
   }
 
