@@ -12,6 +12,7 @@
   export let classes
   export let teachSubjs
 
+  console.log(`classes: ${classes}`)
   let dispatch = createEventDispatcher()
 
   let studts = allStudts
@@ -36,9 +37,7 @@
   let currentAddedSubj = []
   // hold exam records already computed for the term
   let allComputed =  studts.filter(ele => ele.exam?.report != undefined)
-  // let seeAllComputed = allComputed.length > 0 ? allComputed : [] 
-  // console.log(allComputed)
-  // console.log(seeAllComputed)
+  
   // filter out all teachers subject teaches
   let allTeachSubjs = [...new Set(teachSubjs.map(ele => ele.subj))]
   // console.log(`All Teacher's Subjects: ${allTeachSubjs}`)
@@ -176,23 +175,18 @@
   }
 
   function filterList(event) {
+    // check if not empty value passed or selected
     if (event.target.value === '') { 
-      // let teachCls = classes[0]
-      // let tCategory = teachCls.slice(0, 3)
-      // let tLevel = teachCls.match(/\d/g)[0]
-      // let tSubLevel = teachCls.slice(teachCls.length - 1)
-
-      // show students of the first class the teacher handles
-      // listStudt = studts.filter(item => item.meta.class.category === tCategory && item.meta.class.level === tLevel && item.meta.class.subLevel === tSubLevel)
       listStudt = studts
       return
     }
-
+    
+    // show students of the first class the teacher handles
     let category = (event.target.value).slice(0, 3)
     let level = (event.target.value).match(/\d/g)[0]
     let subLevel = (event.target.value).slice(event.target.value.length - 1)
 
-    if (  category === '' & level === '') {
+    if (category === '' & level === '') {
       listStudt = allStudts
       return
     }
@@ -392,9 +386,18 @@
     <div class="input-field">
       <select placeholder=""  name="filterStudt" on:change={filterList} style="text-transform: uppercase;">
         <option value="">Filter Students By Classes</option>
-        {#each classes as cls}
-          <option value={cls}>{cls}</option>
-        {/each}
+        <option value="jss 1a">JSS 1A</option>
+        <option value="jss 1b">JSS 1B</option>
+        <option value="jss 2a">JSS 2A</option>
+        <option value="jss 2b">JSS 2B</option>
+        <option value="jss 3a">JSS 3A</option>
+        <option value="jss 3b">JSS 3B</option>
+        <option value="sss 1a">SSS 1A</option>
+        <option value="sss 1b">SSS 1B</option>
+        <option value="sss 2a">SSS 2A</option>
+        <option value="sss 2b">SSS 2B</option>
+        <option value="sss 3a">SSS 3A</option>
+        <option value="sss 3b">SSS 3B</option>
       </select>
     </div>
   </header>
