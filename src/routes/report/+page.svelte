@@ -9,6 +9,8 @@
 
   function getCurrentStat(evt) {
     currentStat = evt.detail
+    // total completed reports
+    console.log('currentStat', evt.detail)
   }
 </script>
 

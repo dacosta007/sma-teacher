@@ -6,10 +6,22 @@
   export let currentStat
 
   // console.log(currentStat)
+  const { academicYear } = $BranchInfoStore
+  const currentTerm = academicYear.currentTerm
 
+  // all report for the current session
   let totalRept = (allReports.length)
-  let completed = allReports.filter(ele => ele.exam.report != undefined)
-  completed = completed.length <= 0 ? 0 : completed.length
+  // check report for the present current term(i.e: first, second, or third) within the current session
+  let completed = 0
+  if (currentTerm === 'first') {
+    completed = (allReports.filter(ele => ele.exam.report?.first != undefined)).length ?? 0
+  }
+  if (currentTerm === 'second') {
+    completed = (allReports.filter(ele => ele.exam.report?.second != undefined)).length ?? 0
+  }
+  if (currentTerm === 'third') {
+    completed = (allReports.filter(ele => ele.exam.report?.third != undefined)).length ?? 0
+  }
 
   // remaining to be completed
   let remaining = totalRept - completed

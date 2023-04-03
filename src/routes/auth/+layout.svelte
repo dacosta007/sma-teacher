@@ -5,6 +5,7 @@
   export let data
   
   BranchInfoStore.set(data.branchData)
+  // console.log($BranchInfoStore)
 </script>
 
 <section class="layout-section">

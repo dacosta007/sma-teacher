@@ -14,7 +14,7 @@ export async function load({ locals, cookies }) {
   /* --- classes handled by teacher & subjects he/she teaches --- */
   let teachClasses = [...new Set(user.subjects.map(ele => ele.class))]
   let teachSubjs = user.subjects
-  console.log(teachClasses)
+  // console.log(teachClasses)
   let levels = teachClasses.map(ele => ele.match(/\d/)[0])
   let categories = teachClasses.map(ele => ele.slice(0, 3))
   let subLevels = teachClasses.map(ele => ele.slice(ele.length - 1))
