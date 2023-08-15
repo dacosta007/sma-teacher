@@ -1,4 +1,5 @@
 import { results } from "$db/collections/results"
+import { students } from "$db/collections/students"
 import { error } from "@sveltejs/kit"
 
 export async function load({ params, cookies }) {
@@ -23,21 +24,13 @@ export async function load({ params, cookies }) {
 
   try {
     let query = { "meta.studtId": docId }
+    let queryStd = { "studtId":  docId }
     let queryOpt = { projection: { _id: 0 } }
     
     let res = await results.findOne(query, queryOpt)
-    // let stdCls = `${res.meta.class.category} ${res.meta.class.level}${res.meta.class.subLevel}`
-    // console.log(stdCls)
+    let stdInfo = await students.findOne(queryStd, queryOpt)
 
-    // check if student is within teacher's classes(else prevent access to view such student's report)
-    // if (teachClasses.includes(stdCls) === false) {
-    //   return {
-    //     error: true,
-    //     res
-    //   }
-    // }
-
-    return { res, docId }
+    return { res, docId, stdInfo }
   } catch (err) {
     console.log(`Error Result Page: ${err}`)
 

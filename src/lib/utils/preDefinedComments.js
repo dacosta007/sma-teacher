@@ -6,6 +6,8 @@
 
 export const comments = {
   teacher: [
+    "Promoted on trial",
+    "See the school manangement",
     "He is responsible and well behaved",
     "He is responsible and well behaved",
     "He is courteous and shows good manners",
@@ -66,6 +68,8 @@ export const comments = {
     "She is reserved and needed to be active to studies."
   ],
   principal: [
+    "Promoted on trial",
+    "See the school manangement",
     "A good result",	
     "A fair result work harder",	
     "An encouraging result, put more effort",	

@@ -19,7 +19,7 @@
   {/if}
 
   {#if data.docId}
-    <ResultSlip reportData={data.res} />
+    <ResultSlip reportData={data.res} stdInfo={data.stdinfo} />
   {/if}
 </article>
 

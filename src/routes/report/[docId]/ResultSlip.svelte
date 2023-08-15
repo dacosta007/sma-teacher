@@ -3,13 +3,14 @@
   import ResultBody from "./ResultBody.svelte";
   
   export let reportData
+  export let stdInfo
 </script>
 
 <section class="slip-container">
   <div class="slip">
     <ResultHeader reportTitle={'Examination Report'} />
     
-    <ResultBody report={reportData} />
+    <ResultBody report={reportData} {stdInfo} />
   </div>
 </section>
 

@@ -47,22 +47,22 @@
   if (allComputed === true) {
     if (academicYear.currentTerm === 'first') {
       allComputed = studts.filter(ele => ele.exam.report?.first)
-      console.log(allComputed.length)
+      // console.log(allComputed.length)
     }
     if (academicYear.currentTerm === 'second') {
       allComputed = studts.filter(ele => ele.exam.report?.second)
-      console.log(allComputed.length)
+      // console.log(allComputed.length)
     }
     if (academicYear.currentTerm === 'third') {
       allComputed = studts.filter(ele => ele.exam.report?.third)
-      console.log(allComputed.length)
+      // console.log(allComputed.length)
     }
   }
   
   
   // filter out all teachers subject teaches
   let allTeachSubjs = [...new Set(teachSubjs.map(ele => (ele.subj).toLowerCase()))]
-  console.log(`All Teacher's Subjects: ${allTeachSubjs}`)
+  // console.log(`All Teacher's Subjects: ${allTeachSubjs}`)
 
   // holds principal and teacher's comments
   let tComment = '', pComment = ''
@@ -98,7 +98,7 @@
     frmData.gradeClr = gradeClr
 
     // when subject isn't part of what the subject teacher teaches
-    console.log(`Selected subject: ${frmData.subj}`)
+    // console.log(`Selected subject: ${frmData.subj}`)
     // if (allTeachSubjs.includes((frmData.subj).toLowerCase()) === false) {
     //   alert(`🛑 "${frmData.subj}" isn't part of your subject!`)
     //   // frm.reset()
@@ -155,7 +155,7 @@
     // TODO: term should be set automatically(by admin in his portal)/manually(by class teachers)
     stdDetail['term'] = academicYear.currentTerm
     stdDetail['reportType'] = 'exam'
-    // console.log(stdDetail) 
+    // console.log(stdDetail)
     
     fetch('/api/result/exam', {
       method: 'PUT',
@@ -239,7 +239,7 @@
     let stdId = event.target.dataset.stdId
     let std = allStudts.find(s => s.meta.studtId === stdId)
 
-    console.log('All previously computed reports:', allComputed.length)
+    // console.log('All previously computed reports:', allComputed.length)
 
     if (allComputed.length > 0) {
       let getRept = allComputed.find(ele => ele.meta.studtId === stdId)

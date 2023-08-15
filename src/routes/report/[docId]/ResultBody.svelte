@@ -1,17 +1,29 @@
 <script>
+  import { BranchInfoStore } from "$lib/stores/BranchInfoStore"
+
   export let report
-  // console.log(report)
+  export let stdInfo
 
   let { meta, exam, cummulative } = report
   
-
-  let term = 'first'
+  let { academicYear } = $BranchInfoStore
+  let term = academicYear?.currentTerm ?? 'third'
+  let currentSession = academicYear?.session
 
   let results = exam.report[term]
   let tComment = exam.comments[term].teacher
   let pComment = exam.comments[term].principal
   let cummInfo = cummulative.exam[term]
   let { obtainable, obtained, totalSubj, percentage } = cummInfo
+
+  /* for promotion & graduation status (third term only) */
+  let promotions = stdInfo?.promtion ?? []
+  let graduation = stdInfo?.graduation ?? {}
+  let promoStatus = promotions.find(ele => ele?.session === currentSession) ?? undefined
+  let gradStatus = graduation?.session ?? undefined
+
+  /* current student's class(without sub-level, ie: a, b, or c) */
+  const stdCls = `${stdInfo?.class.category} ${stdInfo?.class?.level}`
 
   function printSlip() {
     console.log('printing slip')
@@ -76,22 +88,30 @@
         <div>total</div>
         <div>grade</div>
       </header>
-      {#each results as result}
-        <div class="rept-dt">
-          <!-- subj -->
-          <div>{result.subj}</div>
-          <!-- obtainable -->
-          <div>{result.obtainable}</div>
-          <!-- CA score -->
-          <div>{result.CA}</div>
-          <!-- exam score -->
-          <div>{result.exam}</div>
-          <!-- total marks -->
-          <div>{result.totalMark}</div>
-          <!-- remarks(grade) -->
-          <div style="color: {result.gradeClr};">{result.grade}</div>
-        </div>
-      {/each}
+      <section class="record-container">
+        <!-- report watermark show only in third term -->
+        <!-- {#if term === 'third'}
+          <div class="slip-watermark">
+            <img src="/imgs/promoted_stamp_circle_purple.png" alt="stamp_watermark" width="200" height="auto">
+          </div>
+        {/if} -->
+        {#each results as result}
+          <div class="rept-dt">
+            <!-- subj -->
+            <div>{result.subj}</div>
+            <!-- obtainable -->
+            <div>{result.obtainable}</div>
+            <!-- CA score -->
+            <div>{result.CA}</div>
+            <!-- exam score -->
+            <div>{result.exam}</div>
+            <!-- total marks -->
+            <div>{result.totalMark}</div>
+            <!-- remarks(grade) -->
+            <div style="color: {result.gradeClr};">{result.grade}</div>
+          </div>
+        {/each}
+      </section>
     </div>
   </div>
 
@@ -140,7 +160,7 @@
     </div>
     <!-- print button -->
     <button type="button" on:click={printSlip} style="margin-top: 1em;" class="btn" data-print-receipt="">print slip</button>
-</footer>
+  </footer>
 </section>
 
 <style>
@@ -214,6 +234,27 @@
     border-right: 1px solid var(--clr-off-white);
     padding: 0.4em 0.5em;
   }
+  .record-container {
+    position: relative;
+    isolation: isolate;
+  }
+  /* .slip-watermark {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .slip-watermark img {
+    filter: opacity(0.3);
+    width: 300px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+  } */
   .rept-dt {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
