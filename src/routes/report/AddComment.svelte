@@ -33,7 +33,6 @@
     let comments = event.target.value
     if (comments != '') {
       btnProps.disableBtn = false
-      console.log(`${event.target.name}: is empty`)
       return
     }
     btnProps.disableBtn = true

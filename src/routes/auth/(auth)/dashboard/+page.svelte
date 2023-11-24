@@ -1,10 +1,10 @@
 <script>
   import { BranchInfoStore } from "$lib/stores/BranchInfoStore"
-
   import TileLink from "$lib/components/TileLink.svelte";
-  // branchData from +layout.server.js
-  export let data
+  import AcademicInfo from "$lib/components/AcademicInfo.svelte";
 
+  // branchData(sch branch academic info for the current year/session) from +layout.server.js
+  export let data
   
   BranchInfoStore.set(data.branchData)
 
@@ -26,6 +26,10 @@
 
   <!-- links title -->
   <section class="app-features-sec">
+    <section class="academic-sec">
+      <AcademicInfo academicInfo={data.branchData.academicYear} />
+    </section>
+
     <section class="quick-nav">
       {#each quickLinks as link}
         <TileLink linkObj={link} />
