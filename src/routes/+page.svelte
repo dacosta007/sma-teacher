@@ -19,7 +19,7 @@
   </div>
 
   <footer class="copyright-sec">
-    <small>Copyright &copy;2022. AFSS Ibadan<sup>&trade;</sup> All rights Reserved</small>
+    <small>Copyright &copy;2022 - {(new Date()).getFullYear()}. AFSS Ibadan<sup>&trade;</sup> All rights Reserved</small>
   </footer>
 </article>
 

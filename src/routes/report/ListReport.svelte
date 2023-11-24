@@ -33,32 +33,42 @@
     sec: true
   }
 
-  let stdDetail = studts[0]
+  let stdDetail = studts[0] ?? {}
   let currentAddedSubj = []
+
   // hold exam records already computed for the present current term
-  let allComputed = studts.some(ele => ele.exam.report?.second != undefined)
+  let allComputed = studts.some(ele => {
+    if (ele.exam.report === undefined) {
+      return false
+    }
+    return ele.exam?.report[academicYear.currentTerm] != undefined
+  })
   
   // if there are no report already computed for the current term
   if (allComputed === false) {
     allComputed = []
-    console.log(allComputed)
   }
+
   // if there are any report computed for the current term
-  if (allComputed === true) {
-    if (academicYear.currentTerm === 'first') {
-      allComputed = studts.filter(ele => ele.exam.report?.first)
-      // console.log(allComputed.length)
-    }
-    if (academicYear.currentTerm === 'second') {
-      allComputed = studts.filter(ele => ele.exam.report?.second)
-      // console.log(allComputed.length)
-    }
-    if (academicYear.currentTerm === 'third') {
-      allComputed = studts.filter(ele => ele.exam.report?.third)
-      // console.log(allComputed.length)
+  if (allComputed) {
+    switch (academicYear.currentTerm) {
+      case 'first':
+        allComputed = studts.filter(ele => ele.exam.report?.first)
+      break;
+  
+      case 'second':
+        allComputed = studts.filter(ele => ele.exam.report?.second)
+      break;
+  
+      case 'third':
+        allComputed = studts.filter(ele => ele.exam.report?.third)
+      break;
+    
+      default:
+        allComputed = []
+      break;
     }
   }
-  
   
   // filter out all teachers subject teaches
   let allTeachSubjs = [...new Set(teachSubjs.map(ele => (ele.subj).toLowerCase()))]
@@ -75,6 +85,11 @@
   // help get report subject CA score recorded for mid-term test
   let caScore = 0
   function getCAScore(event) {
+    // check if subject CA for the midTerm, for the current term has been recorded(i.e: check if is a new session and nothing as been recorded)
+    if (stdDetail?.midTerm === undefined || stdDetail?.midTerm?.report === undefined || stdDetail?.midTerm?.report[academicYear.currentTerm] === undefined) {
+      caScore = 0
+      return
+    }
     let subjTitle = event.target.value
     let getSubj = stdDetail.midTerm.report[academicYear.currentTerm].find(ele => ele.subj === subjTitle)
     caScore = getSubj.totalMark
@@ -308,8 +323,7 @@
   function reportComments(evt) {
     tComment = evt.detail.tComment
     pComment = evt.detail.pComment
-    console.log({tComment, pComment})
-
+    
     addReptComment = false;
   }
 
@@ -393,7 +407,7 @@
 
   <!-- action button to close or save record -->
   <footer class="cta-footer">
-    <a href="report/{stdDetail.meta.studtId}" rel="noreferrer" target="_blank" on:click={veiwResult} disabled={disableLink} style="text-decoration: none;">
+    <a href="report/{stdDetail?.meta?.studtId ?? '#'}" rel="noreferrer" target="_blank" on:click={veiwResult} disabled={disableLink} style="text-decoration: none;">
       <Button btnType={'button'} sec={true} btnDisabled={disableLink}>
         <i class="ti ti-eye"></i> <span>preveiw</span>
       </Button>
@@ -458,6 +472,14 @@
         <div class="computed">
           <i class="ti ti-pencil-alt" on:click|self={computeModal} on:keypress|self={computeModal} data-std-id="{std.meta.studtId}"></i>
         </div>
+      </div>
+    {:else}
+      <p style="color: var(--accent-danger); font-weight: bold; margin-bottom: 0.8em;">
+        There are no records of students for the selected class yet. Please make sure all Mid-Term records 
+        for the class has been successfully recorded or add first.
+      </p>
+      <div class="center-text">
+        <a href="/auth/dashboard">Back to Dashboard</a>
       </div>
     {/each}
   </article>

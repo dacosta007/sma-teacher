@@ -1,5 +1,4 @@
-import { MONGO_URI } from "$env/static/private"
-import { MONGO_URI_DEV } from "$env/static/private"
+import { MONGO_URI_DEV, MONGO_URI } from "$env/static/private"
 import { MongoClient } from "mongodb";
 
 
@@ -11,4 +10,4 @@ export function startDB() {
   return client.connect()
 }
 
-export let db = client.db('sch') 
+export let db = client.db('sch')

@@ -6,11 +6,11 @@
   export let data
   
   let currentStat = 0
-
+  $:activeCurrentStat = currentStat
+  
+  // total completed exam reports
   function getCurrentStat(evt) {
     currentStat = evt.detail
-    // total completed reports
-    console.log('currentStat', evt.detail)
   }
 </script>
 
@@ -33,7 +33,7 @@
 
     <!-- show stats -->
     <div class="overall-stat-sec">
-      <Stats allReports={data.results} {currentStat} />
+      <Stats allReports={data.results} currentStat={activeCurrentStat} />
     </div>
   </section>
 </article>
