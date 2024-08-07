@@ -84,6 +84,9 @@ export const comments = {
     "Weak result, there is room for improvement",	
     "Good performance, keep it up.",	
     "A good result but you can do better",	
-    "A brilliant result. Keep the fire burning."	
+    "A brilliant result. Keep the fire burning.",
+    "Promoted to next class",
+    "Promoted on  trial. See the school management.",
+    "Promoted to next class. See the school management."
   ]
 }
